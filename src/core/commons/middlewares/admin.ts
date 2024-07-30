@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express"
 import { exceptionResponse } from "../response"
 import { CustomError } from "../exceptions"
 import client from "../../../database/client"
-import { getUserByUUID } from "../../repository/user"
+import { getUserByUUID } from "../../repository/staff/profile/user"
 
 const adminMiddleware = async (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization

@@ -147,6 +147,7 @@ export type Database = {
           id_position: number
           name: string
           phone_number: string
+          photo_url: string | null
           qr_link: string
           rel_position: string
           role: Database["public"]["Enums"]["Roles"]
@@ -161,6 +162,7 @@ export type Database = {
           id_position: number
           name: string
           phone_number: string
+          photo_url?: string | null
           qr_link: string
           rel_position: string
           role?: Database["public"]["Enums"]["Roles"]
@@ -175,6 +177,7 @@ export type Database = {
           id_position?: number
           name?: string
           phone_number?: string
+          photo_url?: string | null
           qr_link?: string
           rel_position?: string
           role?: Database["public"]["Enums"]["Roles"]
@@ -227,7 +230,7 @@ export type Database = {
       work_hour: {
         Row: {
           created_at: string
-          day: number | null
+          day: number
           end_hour: string
           id: number
           rel_day: string
@@ -236,7 +239,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
-          day?: number | null
+          day: number
           end_hour: string
           id?: number
           rel_day: string
@@ -245,7 +248,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
-          day?: number | null
+          day?: number
           end_hour?: string
           id?: number
           rel_day?: string

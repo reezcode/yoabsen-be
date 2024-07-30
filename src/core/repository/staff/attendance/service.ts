@@ -4,69 +4,55 @@ import { CustomError } from "../../../commons/exceptions";
 import { currentDate, currDateTime, timeInMinutes, currentTime } from "../../../utils/date";
 import { getAddressFromLatLng } from "../../../utils/location";
 import { AttendanceModel } from "./model";
+import { ExtraParam } from "../../../commons/models/extra_param";
+import { getUserUUID } from "../profile/user";
 
 const createAttendance = async (token: string, model: AttendanceModel) => {
   try {
-    // Mengambil lokasi default
+    // get default loc
     const loc = await client.from('location').select('*').eq('default', true).single();
     if (loc.error) {
       throw new Error(loc.error.message);
     }
-
-    // Pengecekan apakah user berada di lokasi dengan toleransi yang diberikan
+    // user loc tolerance check
     const isInLocation = Math.abs(loc.data.lat! - model.lat!) <= loc.data.tolerance! &&
                          Math.abs(loc.data.long! - model.long!) <= loc.data.tolerance!;
     if (!isInLocation) {
       throw new Error('You are not in the location');
     }
-
-    // Mengambil data pengguna dari token
     const { data: userData } = await client.auth.getUser(token.replace('Bearer ', ''));
     if (!userData) {
       throw new Error('User not found');
     }
-
-    // Mendapatkan waktu saat ini dalam timezone UTC+7
     const currentTotalMinutes = currDateTime.getHours() * 60 + currDateTime.getMinutes();
     const day = currDateTime.getDay();
-
-    // Mengambil jam kerja untuk hari ini
+    // get current work hour
     const workHour = await client.from('work_hour').select('*').eq('day', day).single();
     if (workHour.error) {
       throw new Error(workHour.error.message);
     }
-
-    // Menghitung waktu mulai dan akhir kerja dalam menit dari jam 00:00
     const [startHour, startMinute, startSecond] = workHour.data.start_hour.split(':').map(Number);
     const [endHour, endMinute, endSecond] = workHour.data.end_hour.split(':').map(Number);
     const startTotalMinutes = timeInMinutes(startHour, startMinute);
     const endTotalMinutes = timeInMinutes(endHour, endMinute);
-
-    // Mengambil toleransi waktu dari work_hour (dalam menit)
-    const timeTolerance = workHour.data.tolerance || 0; // Toleransi waktu dalam menit
-
-    // Cek apakah waktu sekarang dalam rentang waktu kerja + toleransi
+    const timeTolerance = workHour.data.tolerance || 0; 
     const allowedStart = startTotalMinutes;
     const allowedEnd = endTotalMinutes + timeTolerance;
 
     if (currentTotalMinutes < allowedStart || currentTotalMinutes > allowedEnd) {
       throw new CustomError(400, 'Tidak dapat absen di luar jam kerja');
     }
-
-    // Cek apakah pengguna sudah melakukan absen masuk hari ini
+    // attendance existant check
     const attendance = await client.from('attendance_history')
       .select('*')
       .eq('user_id', userData.user?.id!)
       .eq('date', currentDate)
       .single();
-
     if (attendance.data) {
-      // Jika sudah ada entri absen, cek apakah sudah ada waktu absen keluar (att_out)
       if (attendance.data.att_out) {
-        throw new CustomError(400, 'Anda sudah melakukan absen keluar hari ini');
+        throw new CustomError(400, 'Anda sudah melakukan absen hari ini');
       }
-
-      // Absen keluar jika att_out masih kosong
+      // att out when att exist and att out is null
       if (currentTotalMinutes < endTotalMinutes - timeTolerance || currentTotalMinutes > endTotalMinutes + timeTolerance) {
         throw new CustomError(400, 'Absen keluar hanya diperbolehkan pada waktu yang ditentukan');
       } else {
@@ -91,7 +77,7 @@ const createAttendance = async (token: string, model: AttendanceModel) => {
         }
       }
     } else {
-      // Absen masuk baru
+      // att in
       if (currentTotalMinutes > startTotalMinutes + timeTolerance) {
         throw new CustomError(400, 'Absen masuk terlalu telat');
       } else {
@@ -121,4 +107,57 @@ const createAttendance = async (token: string, model: AttendanceModel) => {
   }
 };
 
-export { createAttendance };
+const getListAttendance = async (token: string,param: ExtraParam) => {
+    try {
+        const userId = await getUserUUID(token);
+        let query = client
+            .from('attendance_history')
+            .select('*')
+            .eq('user_id', userId)
+            .order(param.order_by ?? "id", {
+                ascending: param.sort === "asc" ? true : false,
+              })
+            .limit(param.limit ?? 99)
+            .range(
+                param.page ? param.page * (param.limit ?? 99) : 0,
+                param.limit ?? 99 * (param.page ?? 1)
+            )
+            const att = await query
+            if(att.error){
+                throw new Error(att.error.message)
+            }
+            if(att) {
+                return att.data
+            } else {
+                return {
+                    content: []
+                }
+            }
+    } catch (e) {
+        throw e
+    }
+}
+
+const getAttendance = async (token: string, id: string) => {
+    try {
+        const userId = await getUserUUID(token);
+        const att = await client
+            .from('attendance_history')
+            .select('*')
+            .eq('user_id', userId)
+            .eq('id', id)
+            .single()
+        if(att.error){
+            throw new Error(att.error.message)
+        }
+        if(att) {
+            return att.data
+        } else {
+            throw new CustomError(400, 'Data not found')
+        }
+    } catch (e) {
+        throw e
+    }
+}
+
+export { createAttendance, getListAttendance, getAttendance };

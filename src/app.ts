@@ -4,6 +4,7 @@ import authRoutes from "./routes/staff/auth_routes";
 import staffRoute from "./routes/admin/staff_routes";
 import authAdminRoute from "./routes/admin/auth_routes";
 import attRoutes from "./routes/staff/attendance_routes";
+import dashboardRoutes from "./routes/staff/dashboard_routes";
 
 const app = express();
 const port = 3000;
@@ -14,10 +15,10 @@ app.use(express.static("public"));
 
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/attendance', attRoutes);
+app.use('/api/v1/dashboard', dashboardRoutes)
 app.use('/api/v1/admin/master', staffRoute);
 app.use('/api/v1/admin/auth', authAdminRoute);
 
-// if access other route, send 404
 app.use((req: Request, res: Response) => {
   res.status(404).send("Route not found");
 });
