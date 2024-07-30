@@ -9,7 +9,6 @@ const getDashboard = async (token: string) => {
         const user = await client.from('staff').select('*').eq('id', userId).single()
         const workHour = await client.from('work_hour').select('*').eq('day', currDateTime.getDay()).single()
         const att =  (await client.from('attendance_history').select('*').eq('user_id', userId).eq('date', currentDate)).data?.length
-        console.log(att)
         if(user && workHour){
             return {
                 name: user.data?.name,
