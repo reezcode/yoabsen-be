@@ -1,8 +1,9 @@
 import type { Request, Response } from "express";
 import express from "express";
-import authRoutes from "./routes/auth_routes";
+import authRoutes from "./routes/staff/auth_routes";
 import staffRoute from "./routes/admin/staff_routes";
 import authAdminRoute from "./routes/admin/auth_routes";
+import attRoutes from "./routes/staff/attendance_routes";
 
 const app = express();
 const port = 3000;
@@ -12,6 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/attendance', attRoutes);
 app.use('/api/v1/admin/master', staffRoute);
 app.use('/api/v1/admin/auth', authAdminRoute);
 

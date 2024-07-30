@@ -1,5 +1,5 @@
-import { getRefreshSession, login } from "../controllers/auth_controller";
-import validateBody, { loginSchema } from "../core/validator";
+import { getRefreshSession, login } from "../../controllers/staff/auth_controller";
+import validateBody, { loginSchema } from "../../core/validator";
 
 const { Router } = require('express');
 

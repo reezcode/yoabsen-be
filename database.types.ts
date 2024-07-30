@@ -15,10 +15,12 @@ export type Database = {
           att_in: string | null
           att_out: string | null
           created_at: string
+          date: string | null
           id: number
           lat: number | null
           long: number | null
           proof: string | null
+          proof_verification: boolean | null
           status: string | null
           user_id: string | null
         }
@@ -27,10 +29,12 @@ export type Database = {
           att_in?: string | null
           att_out?: string | null
           created_at?: string
+          date?: string | null
           id?: number
           lat?: number | null
           long?: number | null
           proof?: string | null
+          proof_verification?: boolean | null
           status?: string | null
           user_id?: string | null
         }
@@ -39,10 +43,12 @@ export type Database = {
           att_in?: string | null
           att_out?: string | null
           created_at?: string
+          date?: string | null
           id?: number
           lat?: number | null
           long?: number | null
           proof?: string | null
+          proof_verification?: boolean | null
           status?: string | null
           user_id?: string | null
         }
@@ -98,6 +104,36 @@ export type Database = {
           id?: number
           name?: string
           salary?: number
+        }
+        Relationships: []
+      }
+      location: {
+        Row: {
+          address: string | null
+          created_at: string
+          default: boolean | null
+          id: number
+          lat: number | null
+          long: number | null
+          tolerance: number | null
+        }
+        Insert: {
+          address?: string | null
+          created_at?: string
+          default?: boolean | null
+          id?: number
+          lat?: number | null
+          long?: number | null
+          tolerance?: number | null
+        }
+        Update: {
+          address?: string | null
+          created_at?: string
+          default?: boolean | null
+          id?: number
+          lat?: number | null
+          long?: number | null
+          tolerance?: number | null
         }
         Relationships: []
       }
@@ -191,24 +227,30 @@ export type Database = {
       work_hour: {
         Row: {
           created_at: string
-          day: string
+          day: number | null
           end_hour: string
           id: number
+          rel_day: string
           start_hour: string
+          tolerance: number | null
         }
         Insert: {
           created_at?: string
-          day: string
+          day?: number | null
           end_hour: string
           id?: number
+          rel_day: string
           start_hour: string
+          tolerance?: number | null
         }
         Update: {
           created_at?: string
-          day?: string
+          day?: number | null
           end_hour?: string
           id?: number
+          rel_day?: string
           start_hour?: string
+          tolerance?: number | null
         }
         Relationships: []
       }

@@ -20,7 +20,9 @@ const loginUser = async(model: LoginModel) => {
 
 const refreshSession = async (token: string) => {
     try {
-        const {data, error} = await client.auth.refreshSession()
+        const {data, error} = await client.auth.refreshSession({
+            refresh_token: token
+        })
         if(data){
             return data
         } else {

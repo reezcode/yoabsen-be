@@ -9,6 +9,7 @@ const client = createClient<Database>(supabaseUrl, supabaseKey, {
       persistSession: true,
       detectSessionInUrl: true,
     },
+    
 });
 
 export default client;

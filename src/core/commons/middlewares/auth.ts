@@ -11,7 +11,11 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
     try {
         const { data, error } = await client.auth.getUser(token.replace('Bearer ', ''));
         if (error || !data.user) {
-            return exceptionResponse(res, new CustomError(401, 'Unauthorized'));
+            if(error?.message == "invalid JWT: unable to parse or verify signature, token has invalid claims: token is expired") {
+                return exceptionResponse(res, new CustomError(401, 'Token expired'));
+            } else {
+                return exceptionResponse(res, new CustomError(401, 'Invalid JWT'));
+            }
         }
         next();
     } catch (err) {

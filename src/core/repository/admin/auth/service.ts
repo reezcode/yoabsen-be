@@ -8,11 +8,17 @@ const loginAdmin = async(model: AdminLoginModel) => {
             email: model.email,
             password: model.password
         })
-        if(error) {
-            throw new Error(error.message)
+        if(data) {
+            const datum = await client.from('staff').select('role').eq('id', data.user?.id!).single()
+            if(datum.data?.role! === 'Admin') {
+                return data
+            } else {
+                throw new Error('User not found')
+            }
         } else {
-            return data
+            throw new Error(error?.message)
         }
+
     } catch (error) {
         throw error;
     }
@@ -20,7 +26,9 @@ const loginAdmin = async(model: AdminLoginModel) => {
 
 const refreshSession = async (token: string) => {
     try {
-        const {data, error} = await client.auth.refreshSession()
+        const {data, error} = await client.auth.refreshSession({
+            refresh_token: token
+        })
         if(data){
             return data
         } else {

@@ -1,6 +1,5 @@
 import { createStaffC } from "../../controllers/admin/staff_controller";
 import { adminMiddleware } from "../../core/commons/middlewares/admin";
-import { authMiddleware } from "../../core/commons/middlewares/auth";
 import validateBody, { staffSchema } from "../../core/validator";
 
 
