@@ -5,6 +5,8 @@ import staffRoute from "./routes/admin/staff_routes";
 import authAdminRoute from "./routes/admin/auth_routes";
 import attRoutes from "./routes/staff/attendance_routes";
 import dashboardRoutes from "./routes/staff/dashboard_routes";
+import profileRoutes from "./routes/staff/profile_rotues";
+import utilRoutes from "./routes/utils/utils_routes";
 
 const app = express();
 const port = 3000;
@@ -15,7 +17,9 @@ app.use(express.static("public"));
 
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/attendance', attRoutes);
-app.use('/api/v1/dashboard', dashboardRoutes)
+app.use('/api/v1/dashboard', dashboardRoutes);
+app.use('/api/v1/profile', profileRoutes);
+app.use('/api/v1/utils', utilRoutes);
 app.use('/api/v1/admin/master', staffRoute);
 app.use('/api/v1/admin/auth', authAdminRoute);
 
