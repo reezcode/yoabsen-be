@@ -3,6 +3,9 @@ const currDateTime = new Date(now);
 
 // Tambah 7 jam
 currDateTime.setHours(currDateTime.getHours() + 7);
+// tambah 1 menit 30 detik
+currDateTime.setMinutes(currDateTime.getMinutes() + 1);
+currDateTime.setSeconds(currDateTime.getSeconds() + 30);
 
 const year = currDateTime.getFullYear();
 const month = String(currDateTime.getMonth() + 1).padStart(2, '0'); // Bulan dimulai dari 0
