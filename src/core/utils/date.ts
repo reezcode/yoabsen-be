@@ -1,5 +1,8 @@
-const now = new Date().toLocaleString('en-US', { timeZone: 'Asia/Jakarta' });
+const now = new Date();
 const currDateTime = new Date(now);
+
+// Tambah 7 jam
+currDateTime.setHours(currDateTime.getHours() + 7);
 
 const year = currDateTime.getFullYear();
 const month = String(currDateTime.getMonth() + 1).padStart(2, '0'); // Bulan dimulai dari 0
@@ -10,8 +13,8 @@ const currentTime = currDateTime.toLocaleTimeString('en-US', {
     minute: '2-digit',
     second: '2-digit',
     hour12: false,
-  });
+});
 
 const timeInMinutes = (hour: number, minute: number) => hour * 60 + minute;
 
-export { currDateTime, currentDate, timeInMinutes, currentTime }
+export { currDateTime, currentDate, timeInMinutes, currentTime };
