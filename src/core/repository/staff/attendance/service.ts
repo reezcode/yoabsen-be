@@ -1,7 +1,7 @@
 import client from "../../../../database/client";
 import { CustomError } from "../../../commons/exceptions";
 import { ExtraParam } from "../../../commons/models/extra_param";
-import { currDateTime, currentDate, currentTime, timeInMinutes } from "../../../utils/date";
+// import { currDateTime, currentDate, currentTime, timeInMinutes } from "../../../utils/date";
 import { getAddressFromLatLng } from "../../../utils/location";
 import { getUserUUID } from "../profile/user";
 import { AttendanceModel } from "./model";
@@ -23,6 +23,21 @@ const createAttendance = async (token: string, model: AttendanceModel) => {
     if (!userData) {
       throw new Error('User not found');
     }
+    // TIME
+    const now = new Date();
+
+    // Mengubah ke timezone Asia/Jakarta
+    const currDateTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Jakarta' }));
+    const options = { timeZone: 'Asia/Jakarta', hour12: false };
+    const year = now.toLocaleString('en-CA', { ...options, year: 'numeric' });
+    const month = now.toLocaleString('en-CA', { ...options, month: '2-digit' });
+    const day2 = now.toLocaleString('en-CA', { ...options, day: '2-digit' });
+    const currentDate = `${year}-${month}-${day2}`;
+    const currentTime = now.toLocaleTimeString('en-US', { ...options, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+    const timeInMinutes = (hour: number, minute: number) => hour * 60 + minute;
+    // TIME
+
     const currentTotalMinutes = currDateTime.getHours() * 60 + currDateTime.getMinutes();
     const day = currDateTime.getDay();
     // get current work hour
