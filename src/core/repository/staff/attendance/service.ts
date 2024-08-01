@@ -40,7 +40,7 @@ const createAttendance = async (token: string, model: AttendanceModel) => {
     const allowedEnd = endTotalMinutes + timeTolerance;
 
     if (currentTotalMinutes < allowedStart || currentTotalMinutes > allowedEnd) {
-      throw new CustomError(400, 'Tidak dapat absen di luar jam kerja');
+      throw new CustomError(400, 'Tidak dapat absen di luar jam kerja' + currDateTime.getHours + ':' + currDateTime.getMinutes);
     }
     // attendance existant check
     const attendance = await client.from('attendance_history')
