@@ -1,23 +1,16 @@
 const now = new Date();
-const currDateTime = new Date(now);
 
-// Tambah 7 jam
-currDateTime.setHours(currDateTime.getHours() + 7);
-// tambah 1 menit 30 detik
-currDateTime.setMinutes(currDateTime.getMinutes() + 11);
-currDateTime.setSeconds(currDateTime.getSeconds() + 30);
-
-const year = currDateTime.getFullYear();
-const month = String(currDateTime.getMonth() + 1).padStart(2, '0'); // Bulan dimulai dari 0
-const day = String(currDateTime.getDate()).padStart(2, '0');
+// Mengubah ke timezone Asia/Jakarta
+const options = { timeZone: 'Asia/Jakarta', hour12: false };
+const year = now.toLocaleString('en-CA', { ...options, year: 'numeric' });
+const month = now.toLocaleString('en-CA', { ...options, month: '2-digit' });
+const day = now.toLocaleString('en-CA', { ...options, day: '2-digit' });
 const currentDate = `${year}-${month}-${day}`;
-const currentTime = currDateTime.toLocaleTimeString('en-US', {
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: false,
-});
+const currentTime = now.toLocaleTimeString('en-US', { ...options, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+const hours = parseInt(now.toLocaleString('en-US', { ...options, hour: '2-digit', hour12: false }), 10);
+const minutes = parseInt(now.toLocaleString('en-US', { ...options, minute: '2-digit' }), 10);
 
 const timeInMinutes = (hour: number, minute: number) => hour * 60 + minute;
 
-export { currDateTime, currentDate, timeInMinutes, currentTime };
+export { now as currDateTime, currentDate, timeInMinutes, currentTime, hours, minutes };
