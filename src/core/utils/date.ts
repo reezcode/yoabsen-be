@@ -4,7 +4,7 @@ const currDateTime = new Date(now);
 // Tambah 7 jam
 currDateTime.setHours(currDateTime.getHours() + 7);
 // tambah 1 menit 30 detik
-currDateTime.setMinutes(currDateTime.getMinutes() + 1);
+currDateTime.setMinutes(currDateTime.getMinutes() + 11);
 currDateTime.setSeconds(currDateTime.getSeconds() + 30);
 
 const year = currDateTime.getFullYear();
