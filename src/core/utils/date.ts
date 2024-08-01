@@ -1,6 +1,7 @@
 const now = new Date();
 
 // Mengubah ke timezone Asia/Jakarta
+const currDateTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Jakarta' }));
 const options = { timeZone: 'Asia/Jakarta', hour12: false };
 const year = now.toLocaleString('en-CA', { ...options, year: 'numeric' });
 const month = now.toLocaleString('en-CA', { ...options, month: '2-digit' });
@@ -13,4 +14,4 @@ const minutes = parseInt(now.toLocaleString('en-US', { ...options, minute: '2-di
 
 const timeInMinutes = (hour: number, minute: number) => hour * 60 + minute;
 
-export { now as currDateTime, currentDate, timeInMinutes, currentTime, hours, minutes };
+export {currDateTime , currentDate, timeInMinutes, currentTime, hours, minutes };

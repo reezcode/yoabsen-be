@@ -1,11 +1,10 @@
-import { date } from "zod";
 import client from "../../../../database/client";
 import { CustomError } from "../../../commons/exceptions";
-import { currentDate, currDateTime, timeInMinutes, currentTime } from "../../../utils/date";
-import { getAddressFromLatLng } from "../../../utils/location";
-import { AttendanceModel } from "./model";
 import { ExtraParam } from "../../../commons/models/extra_param";
+import { currDateTime, currentDate, currentTime, timeInMinutes } from "../../../utils/date";
+import { getAddressFromLatLng } from "../../../utils/location";
 import { getUserUUID } from "../profile/user";
+import { AttendanceModel } from "./model";
 
 const createAttendance = async (token: string, model: AttendanceModel) => {
   try {
@@ -160,4 +159,5 @@ const getAttendance = async (token: string, id: string) => {
     }
 }
 
-export { createAttendance, getListAttendance, getAttendance };
+export { createAttendance, getAttendance, getListAttendance };
+

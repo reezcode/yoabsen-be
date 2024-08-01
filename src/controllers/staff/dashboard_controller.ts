@@ -20,4 +20,16 @@ const getDashboardC = async (req: Request, res: Response) => {
     }
 }
 
-export { getDashboardC }
+const getCurrentTime = async (req: Request, res: Response) => {
+    try {
+        const date = new Date()
+        return successResponse(res, {
+            message: 'Get current time success',
+            content: date.toISOString()
+        })
+    } catch (e: any) {
+        return exceptionResponse(res, e)
+    }
+}
+
+export { getDashboardC, getCurrentTime }
