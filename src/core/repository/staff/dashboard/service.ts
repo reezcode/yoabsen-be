@@ -1,10 +1,16 @@
 import client from "../../../../database/client"
 import { CustomError } from "../../../commons/exceptions";
-import { currDateTime, currentDate } from "../../../utils/date";
 import { getUserUUID } from "../profile/user"
 
 const getDashboard = async (token: string) => {
     try {
+        const now = new Date();
+        const currDateTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Jakarta' }));
+        const options = { timeZone: 'Asia/Jakarta', hour12: false };
+        const year = now.toLocaleString('en-CA', { ...options, year: 'numeric' });
+        const month = now.toLocaleString('en-CA', { ...options, month: '2-digit' });
+        const day2 = now.toLocaleString('en-CA', { ...options, day: '2-digit' });
+        const currentDate = `${year}-${month}-${day2}`;
         const userId = await getUserUUID(token);
         const user = await client.from('staff').select('*').eq('id', userId).single()
         const workHour = await client.from('work_hour').select('*').eq('day', currDateTime.getDay()).single()
