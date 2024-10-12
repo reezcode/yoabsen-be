@@ -32,7 +32,9 @@ const validateBody = (schema: z.ZodObject<any, any>) => {
 export default validateBody;
 export { attSchema, permitSchema } from './attendance_schema';
 export { adminLoginSchema, loginSchema } from './auth_schema';
+export { holidayDateCreateSchema, holidayDateUpdateSchema } from './holiday_date_schema';
 export { jobPositionCreateSchema, jobPositionUpdateSchema } from './job_position_schema';
+export { locationSchema } from './location_schema';
 export { profileSchema } from './profile_schema';
 export { staffSchema } from './staff_schema';
 export { workHourSchema } from './work_hour_schema';

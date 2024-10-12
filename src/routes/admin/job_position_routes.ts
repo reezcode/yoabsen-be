@@ -1,4 +1,4 @@
-import { createJobPositionC, deleteJobPositionC, getJobPositionC, listJobPositionC, updateJobPositionC } from "../../controllers/admin/job_position";
+import { createJobPositionC, deleteJobPositionC, getJobPositionC, listJobPositionC, updateJobPositionC } from "../../controllers/admin/job_position_controller";
 import { authMiddleware } from "../../core/commons/middlewares/auth";
 import validateBody, { jobPositionCreateSchema, jobPositionUpdateSchema } from "../../core/validator";
 
