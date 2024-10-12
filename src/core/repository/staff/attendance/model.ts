@@ -6,4 +6,10 @@ interface AttendanceModel {
     address?: string,
 }
 
-export {AttendanceModel}
+interface PermitModel {
+    name: string,
+    description: string,
+    date: string,
+}
+
+export {AttendanceModel, PermitModel}

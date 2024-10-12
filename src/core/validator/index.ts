@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { z } from 'zod';
 import { UnprocessableEntityError } from '../commons/exceptions';
 import { exceptionResponse } from '../commons/response';
@@ -30,7 +30,10 @@ const validateBody = (schema: z.ZodObject<any, any>) => {
 };
 
 export default validateBody;
-export { loginSchema, adminLoginSchema } from './auth_schema';
-export { staffSchema } from './staff_schema';
-export { attSchema } from './attendance_schema';
+export { attSchema, permitSchema } from './attendance_schema';
+export { adminLoginSchema, loginSchema } from './auth_schema';
+export { jobPositionCreateSchema, jobPositionUpdateSchema } from './job_position_schema';
 export { profileSchema } from './profile_schema';
+export { staffSchema } from './staff_schema';
+export { workHourSchema } from './work_hour_schema';
+

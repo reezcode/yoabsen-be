@@ -34,4 +34,33 @@ const getDashboard = async (token: string) => {
     }
 }
 
-export { getDashboard }
+const getWorkSchedule = async () => {
+    try {
+        const data = await client.from('work_hour').select('*')
+        if(data) {
+            return data.data
+        } else {
+            return new CustomError(400, "Error fetch work schedule")
+        }
+    } catch (e) {
+        throw e
+    }
+}
+
+// const getAttendanceList = async (token: string) => {
+//     try {
+//         const userUUID = await getUserUUID(token)
+//         const data = await client.from('attendance_history').select('*').eq('user_id', userUUID).order('date', {
+//             ascending: true
+//         })
+//         const attList = data.data?.map((v) => {
+//             return {
+
+//             }
+//         })
+//     } catch (e) {
+//         throw e
+//     }
+// }
+
+export { getDashboard, getWorkSchedule }

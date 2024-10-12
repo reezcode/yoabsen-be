@@ -4,7 +4,7 @@ import { ExtraParam } from "../../../commons/models/extra_param";
 // import { currDateTime, currentDate, currentTime, timeInMinutes } from "../../../utils/date";
 import { getAddressFromLatLng } from "../../../utils/location";
 import { getUserUUID } from "../profile/user";
-import { AttendanceModel } from "./model";
+import { AttendanceModel, PermitModel } from "./model";
 
 const createAttendance = async (token: string, model: AttendanceModel) => {
   try {
@@ -174,5 +174,30 @@ const getAttendance = async (token: string, id: string) => {
     }
 }
 
-export { createAttendance, getAttendance, getListAttendance };
+const createPermit = async (token: string, model: PermitModel) => {
+  try {
+    const userUUID = await getUserUUID(token)
+    const body = {
+      // TODO: UBAH JADI START DATE - END DATE
+      date: model.date,
+      description: model.description,
+      name: model.name,
+      status: 'pending',
+      user_id: userUUID
+    }
+    const {error} = await client.from('staff_permit').insert(body)
+    if(error) {
+      throw new Error(error.message)
+    } else {
+      return {
+        message: 'Permit created successfully',
+        content: body
+      }
+    }
+  } catch (e) {
+    throw e
+  }
+}
+
+export { createAttendance, createPermit, getAttendance, getListAttendance };
 

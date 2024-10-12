@@ -24,4 +24,10 @@ const loginSchema = z.object({
       .max(255),
   })
 
-  export  {loginSchema, adminLoginSchema};
+  const refreshTokenSchema = z.object({
+    refresh_token: z.string({
+      invalid_type_error: 'Refresh Token must be a string',
+    }),
+  });
+
+  export { adminLoginSchema, loginSchema, refreshTokenSchema };

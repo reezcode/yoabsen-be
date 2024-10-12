@@ -40,7 +40,7 @@ const createStaff = async (model: StaffModel) => {
     }
 }
 
-const updateStaff = async (model: StaffModel) => {
+const updateStaff = async (id: string,model: StaffModel) => {
     try {
         const {error} =  await client.from('staff').update({
             code: model.code,
@@ -52,8 +52,8 @@ const updateStaff = async (model: StaffModel) => {
             salary: model.salary,
             phone_number: model.phone_number,
             qr_link: model.qr_link,
-            role: Role.STAFF
-        })
+            role: model.role
+        }).eq('id', id)
         if(error) {
             throw new Error(error.message)
         } else {
@@ -103,4 +103,4 @@ const listStaff = async () => {
     }
 }
 
-export { createStaff, updateStaff, deleteStaff, getStaff, listStaff }
+export { createStaff, deleteStaff, getStaff, listStaff, updateStaff }

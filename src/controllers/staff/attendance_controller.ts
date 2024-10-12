@@ -1,6 +1,6 @@
 import { exceptionResponse, successResponse } from "../../core/commons/response"
 import { Request, Response } from 'express';
-import { createAttendance, getAttendance, getListAttendance } from "../../core/repository/staff/attendance/service";
+import { createAttendance, createPermit, getAttendance, getListAttendance } from "../../core/repository/staff/attendance/service";
 import { CustomError } from "../../core/commons/exceptions";
 
 const createAttendanceC = async (req: Request, res: Response) => {
@@ -57,4 +57,22 @@ const getAttendanceC = async (req: Request, res: Response) => {
     }
 }
 
-export { createAttendanceC, getListAttendanceC, getAttendanceC }
+const createPermitC = async (req: Request, res: Response) => {
+    try {
+        const model = req.body
+        const token = req.headers.authorization
+        const data = await createPermit(token!, model)
+        if(data) {
+            return successResponse(res, {
+                message: data.message,
+                content: data.content
+            })
+        } else {
+            return exceptionResponse(res, new CustomError(400, 'Create permit failed'))
+        }
+    } catch (error: any) {
+        return exceptionResponse(res, error)
+    }
+}
+
+export { createAttendanceC, getListAttendanceC, getAttendanceC, createPermitC }

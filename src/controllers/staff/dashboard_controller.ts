@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getDashboard } from '../../core/repository/staff/dashboard/service';
+import { getDashboard, getWorkSchedule } from '../../core/repository/staff/dashboard/service';
 import { exceptionResponse, successResponse } from '../../core/commons/response';
 import { CustomError } from '../../core/commons/exceptions';
 
@@ -32,4 +32,20 @@ const getCurrentTime = async (req: Request, res: Response) => {
     }
 }
 
-export { getDashboardC, getCurrentTime }
+const getWorkScheduleC = async (req: Request, res: Response) => {
+    try {
+        const data = await getWorkSchedule()
+        if(data) {
+            return successResponse(res, {
+                message: 'Work schedule fetched',
+                content: data
+            })
+        } else {
+            return exceptionResponse(res, new CustomError(400, 'Error fetch work schedule'))
+        }
+    } catch (e: any) {
+        return exceptionResponse(res, e)
+    }
+}
+
+export { getDashboardC, getCurrentTime, getWorkScheduleC }

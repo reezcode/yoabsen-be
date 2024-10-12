@@ -208,6 +208,7 @@ export type Database = {
           id: number
           name: string
           status: string
+          user_id: string
         }
         Insert: {
           created_at?: string
@@ -216,6 +217,7 @@ export type Database = {
           id?: number
           name: string
           status: string
+          user_id: string
         }
         Update: {
           created_at?: string
@@ -224,8 +226,17 @@ export type Database = {
           id?: number
           name?: string
           status?: string
+          user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "staff_permit_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "staff"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       work_hour: {
         Row: {
