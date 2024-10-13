@@ -1,12 +1,12 @@
 import { createJobPositionC, deleteJobPositionC, getJobPositionC, listJobPositionC, updateJobPositionC } from "../../controllers/admin/job_position_controller";
-import { authMiddleware } from "../../core/commons/middlewares/auth";
+import { adminMiddleware } from "../../core/commons/middlewares/admin";
 import validateBody, { jobPositionCreateSchema, jobPositionUpdateSchema } from "../../core/validator";
 
 const { Router } = require('express');
 
 const jobPositionRoutes = Router();
 
-jobPositionRoutes.use(authMiddleware)
+jobPositionRoutes.use(adminMiddleware)
 
 jobPositionRoutes.post('/create', validateBody(jobPositionCreateSchema),createJobPositionC)
 jobPositionRoutes.get('/list', listJobPositionC)

@@ -1,11 +1,11 @@
 import { downloadExcelC } from "../../controllers/admin/attandance_history_controller";
-import { authMiddleware } from "../../core/commons/middlewares/auth";
+import { adminMiddleware } from "../../core/commons/middlewares/admin";
 
 const { Router } = require('express');
 
 const attendanceHistoryRoutes = Router();
 
-attendanceHistoryRoutes.use(authMiddleware)
+attendanceHistoryRoutes.use(adminMiddleware)
 
 attendanceHistoryRoutes.get('/download-excel', downloadExcelC)
 
