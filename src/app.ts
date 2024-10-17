@@ -1,3 +1,4 @@
+import cors from "cors";
 import type { Request, Response } from "express";
 import express from "express";
 import rateLimit from "express-rate-limit";
@@ -32,6 +33,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(limiter);
 app.use(helmet())
+app.use(cors)
 
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/attendance', attRoutes);
