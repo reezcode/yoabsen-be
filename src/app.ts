@@ -28,12 +28,30 @@ const limiter = rateLimit({
   
 })
 
+const corsOptions = {
+  origin: "http://localhost:3000", 
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true, 
+  allowedHeaders: [
+    "X-CSRF-Token",
+    "X-Requested-With",
+    "Accept",
+    "Accept-Version",
+    "Content-Length",
+    "Content-MD5",
+    "Content-Type",
+    "Date",
+    "X-Api-Version",
+    "Authorization", 
+  ],
+};
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(limiter);
 app.use(helmet())
-app.use(cors)
+app.use(cors(corsOptions))
 
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/attendance', attRoutes);
